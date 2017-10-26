@@ -22,7 +22,10 @@
         android:id="@+id/petImageView"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        app:srcCompat="@drawable/none" />
+        app:srcCompat="@drawable/none"
+        android:contentDescription="@string/details"
+        android:onClick="selectPetImage"
+        android:clickable="true"/>
 
     <Button
         android:id="@+id/addPetButton"
