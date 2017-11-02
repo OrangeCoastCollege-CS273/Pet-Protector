@@ -18,6 +18,11 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity allows user to add a picture of a pet to a list of pets
+ *
+ * Photo of pet is taken from device's images
+ */
 public class PetListActivity extends AppCompatActivity {
     private ImageView petImageView;
     private Uri petImageUri;
@@ -25,6 +30,12 @@ public class PetListActivity extends AppCompatActivity {
     public static final int GRANTED = PackageManager.PERMISSION_GRANTED;
     public static final int DENIED = PackageManager.PERMISSION_DENIED;
 
+    /**
+     * Called when the activity is starting
+     * Connects the {@link ImageView} to its programmatic counterpart
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +45,13 @@ public class PetListActivity extends AppCompatActivity {
         petImageView.setImageURI(getUriFromResource(this, R.drawable.none));
     }
 
+    /**
+     * Requests permissions needed
+     *
+     * If all permissions are granted, launches the gallery for photo selection
+     *
+     * @param view Add pet button
+     */
     public void selectPetImage(View view) {
         List<String> permsList = new ArrayList<>();
 
@@ -62,6 +80,15 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when result is recieved
+     *
+     * Only situated for photo selection result
+     *
+     * @param requestCode Code that is sent with startActivityForResult
+     * @param resultCode Code that is sent after activity is complete
+     * @param data the intent that called activity
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -74,6 +101,13 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *  Method that makes generating a URI from a resource easy
+     *
+     * @param context Context of resource
+     * @param resID ID of resource
+     * @return Generated URI
+     */
     public static Uri getUriFromResource(Context context, int resID) {
         Resources res = context.getResources();
         String uri = ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
