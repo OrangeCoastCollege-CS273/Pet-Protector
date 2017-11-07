@@ -12,8 +12,12 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +28,18 @@ import java.util.List;
  * Photo of pet is taken from device's images
  */
 public class PetListActivity extends AppCompatActivity {
-    private ImageView petImageView;
+    private ImageView mPetImageView;
+    private EditText mNameEditText;
+    private EditText mDetailsEditText;
+    private EditText mPhoneNumberEditText;
+    private ListView mPetsListView;
+
+    private List<Pet> mPetList;
+    private PetListAdapter mPetListAdapter;
+
     private Uri petImageUri;
+
+    private  DBHelper mDBHelper;
 
     public static final int GRANTED = PackageManager.PERMISSION_GRANTED;
     public static final int DENIED = PackageManager.PERMISSION_DENIED;
@@ -41,8 +55,51 @@ public class PetListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_list);
 
-        petImageView = (ImageView) findViewById(R.id.petImageView);
-        petImageView.setImageURI(getUriFromResource(this, R.drawable.none));
+        mDBHelper = new DBHelper(this);
+        mDBHelper.deleteAllPets();
+
+        mPetImageView = (ImageView) findViewById(R.id.petImageView);
+        mNameEditText = (EditText) findViewById(R.id.nameTextView);
+        mDetailsEditText = (EditText) findViewById(R.id.detailsTextView);
+        mPhoneNumberEditText = (EditText) findViewById(R.id.phoneNumberTextView);
+        mPetsListView = (ListView) findViewById(R.id.petsListView);
+
+        mPetList = mDBHelper.getAllPets();
+        mPetListAdapter = new PetListAdapter(this, R.layout.pet_list_item, mPetList);
+        mPetsListView.setAdapter(mPetListAdapter);
+
+        petImageUri = getUriFromResource(this, R.drawable.none);
+        mPetImageView.setImageURI(petImageUri);
+    }
+
+    public void addPet(View view) {
+        String name = mNameEditText.getText().toString();
+        String details = mDetailsEditText.getText().toString();
+        String phoneNumber = mPhoneNumberEditText.getText().toString();
+
+        if (TextUtils.isEmpty(name) || TextUtils.isEmpty(details) || TextUtils.isEmpty(phoneNumber)) {
+            Toast.makeText(this, "Please fill out all text fields", Toast.LENGTH_SHORT).show();
+        } else {
+            int id = mDBHelper.addPet(new Pet(name, details, phoneNumber, petImageUri));
+
+            mPetList.add(new Pet(id, name, details, phoneNumber, petImageUri));
+            mPetListAdapter.notifyDataSetChanged();
+
+            mNameEditText.setText("");
+            mDetailsEditText.setText("");
+            mPhoneNumberEditText.setText("");
+            petImageUri = getUriFromResource(this, R.drawable.none);
+            mPetImageView.setImageURI(petImageUri);
+        }
+    }
+
+    public void viewDetails(View v) {
+        Pet pet = (Pet) v.getTag();
+
+        Intent intent = new Intent(this, PetDetailsActivity.class);
+        intent.putExtra("pet", pet);
+
+        startActivity(intent);
     }
 
     /**
@@ -96,7 +153,7 @@ public class PetListActivity extends AppCompatActivity {
             case(1):
                 if (resultCode == RESULT_OK && data != null) {
                     petImageUri = data.getData();
-                    petImageView.setImageURI(petImageUri);
+                    mPetImageView.setImageURI(petImageUri);
                 }
         }
     }
