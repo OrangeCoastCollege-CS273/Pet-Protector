@@ -3,7 +3,9 @@ package edu.orangecoastcollege.cs273.petprotector;
 
 import android.net.Uri;
 
-public class Pet {
+import java.io.Serializable;
+
+public class Pet implements Serializable{
     private int mID;
     private String mName;
     private String mDetails;
