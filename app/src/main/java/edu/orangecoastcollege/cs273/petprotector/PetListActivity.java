@@ -98,6 +98,7 @@ public class PetListActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, PetDetailsActivity.class);
         intent.putExtra("pet", pet);
+        intent.putExtra("uri", pet.getImage().toString());
 
         startActivity(intent);
     }

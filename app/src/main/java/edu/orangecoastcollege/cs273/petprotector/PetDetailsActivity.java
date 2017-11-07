@@ -1,10 +1,12 @@
 package edu.orangecoastcollege.cs273.petprotector;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 public class PetDetailsActivity extends AppCompatActivity {
     private TextView mNameTextView;
@@ -28,6 +30,6 @@ public class PetDetailsActivity extends AppCompatActivity {
         mNameTextView.setText(pet.getName());
         mDetailsTextView.setText(pet.getDetails());
         mPhoneNumberTextView.setText(pet.getPhone());
-        mPetImageView.setImageURI(pet.getImage());
+        mPetImageView.setImageURI(Uri.parse(intent.getStringExtra("uri")));
     }
 }

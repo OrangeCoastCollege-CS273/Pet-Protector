@@ -10,7 +10,7 @@ public class Pet implements Serializable{
     private String mName;
     private String mDetails;
     private String mPhone;
-    private Uri mImage;
+    private transient Uri mImage;
 
     public Pet(int ID, String name, String details, String phone, Uri image) {
         mID = ID;
