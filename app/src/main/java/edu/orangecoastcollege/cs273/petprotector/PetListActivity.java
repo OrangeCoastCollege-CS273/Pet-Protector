@@ -72,6 +72,11 @@ public class PetListActivity extends AppCompatActivity {
         mPetImageView.setImageURI(petImageUri);
     }
 
+    /**
+     * Takes the data inputted by the user and creates a new pet
+     * Uses this new pet to create a new entry in the database
+     * @param view The add pet button
+     */
     public void addPet(View view) {
         String name = mNameEditText.getText().toString();
         String details = mDetailsEditText.getText().toString();
@@ -93,6 +98,10 @@ public class PetListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Views the details of a selected pet
+     * @param v The selected linearlayout
+     */
     public void viewDetails(View v) {
         Pet pet = (Pet) v.getTag();
 

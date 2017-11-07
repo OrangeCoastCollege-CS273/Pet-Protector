@@ -22,6 +22,11 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Creates the database by creating the table with the fields
+     *
+     * @param sqLiteDatabase database
+     */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         StringBuilder sql = new StringBuilder("CREATE TABLE ");
@@ -31,12 +36,23 @@ public class DBHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql.toString());
     }
 
+    /**
+     * Upgrades the database by dropping the table and creating a new table
+     * @param sqLiteDatabase database
+     * @param i old version
+     * @param i1 new version
+     */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
         onCreate(sqLiteDatabase);
     }
 
+    /**
+     * Adds a new pet to the database
+     * @param pet Pet to be added
+     * @return the id of the database entry
+     */
     public int addPet(Pet pet) {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -52,6 +68,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    /**
+     * Fetches a list of all the pets that are in the database
+     * @return all pets
+     */
     public ArrayList<Pet> getAllPets() {
         ArrayList<Pet> petsList = new ArrayList<>();
 
@@ -68,6 +88,9 @@ public class DBHelper extends SQLiteOpenHelper {
         return petsList;
     }
 
+    /**
+     * Deletes all the pets that are in the database
+     */
     public void deleteAllPets() {
         onUpgrade(getWritableDatabase(), 1, 1);
     }

@@ -14,6 +14,12 @@ public class PetDetailsActivity extends AppCompatActivity {
     private TextView mPhoneNumberTextView;
     private ImageView mPetImageView;
 
+    /**
+     * Creates a view showing the details of the pet
+     *
+     * Takes data from intent and fills views
+     * @param savedInstanceState Not used
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -22,6 +22,12 @@ public class PetListAdapter extends ArrayAdapter {
     private  int mResourceID;
     private List<Pet> mPetList = new ArrayList<>();
 
+    /**
+     * Creates a {@link PetListAdapter}
+     * @param context Context of adapter
+     * @param resource layout id
+     * @param pets list of pets to be adapted
+     */
     public PetListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<Pet> pets) {
         super(context, resource, pets);
         mContext = context;
@@ -29,6 +35,13 @@ public class PetListAdapter extends ArrayAdapter {
         mPetList = pets;
     }
 
+    /**
+     * Inflates the item
+     * @param position Position of item to be inflated
+     * @param convertView not used
+     * @param parent not used
+     * @return calling view
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
