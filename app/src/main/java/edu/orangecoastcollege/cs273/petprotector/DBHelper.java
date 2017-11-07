@@ -32,4 +32,20 @@ public class DBHelper extends SQLiteOpenHelper{
         onCreate(sqLiteDatabase);
     }
 
+    public int addPet(Pet pet) {
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(FIELD_NAMES[1], pet.getName());
+        values.put(FIELD_NAMES[2], pet.getDetails());
+        values.put(FIELD_NAMES[3], pet.getPhone());
+        values.put(FIELD_NAMES[4], pet.getImage().toString());
+
+        int id = (int) database.insert(DATABASE_TABLE, null, values);
+
+        database.close();
+        return id;
+    }
+
+
 }
